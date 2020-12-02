@@ -22,7 +22,7 @@ module.exports = {
           openapi: '3.0.1',
           info: {
             title: this.title,
-            version: this.$hub.parentVersion,
+            version: volante.parentVersion,
             description: this.description,
           },
           securityDefinitions: {
@@ -50,11 +50,19 @@ module.exports = {
         },
         apis: [path.join(volante.parentRoot, this.src, '**/*.js')],
       },
-      swaggerUiDistPath: './node_modules/swagger-ui-dist',
+      swaggerUiDistPath: null,
       newHtml: '',
     };
   },
   init() {
+    // find path to swagger-ui-dist, could be under volante-swagger, or in project's flattened node_modules
+    if (fs.existsSync('./node_modules/swagger-ui-dist')) {
+      this.swaggerUiDistPath = path.resolve('./node_modules/swagger-ui-dist');
+    } else {
+      // assume it's in the parent's node_modules
+      this.swaggerUiDistPath = path.join(volante.modulePath, 'swagger-ui-dist');
+    }
+
     // set up the routes
     this.router = require('express').Router();
 
@@ -78,7 +86,7 @@ module.exports = {
 		// 1. not show the petstore demo by default, but pull our json
 		// 2. fix path root to be at this.ui
     hackSwaggerHtmlFile() {
-      return fs.readFileSync(path.join(__dirname, this.swaggerUiDistPath, 'index.html'), { encoding:'utf-8' })
+      return fs.readFileSync(path.join(this.swaggerUiDistPath, 'index.html'), { encoding:'utf-8' })
                .replace('https://petstore.swagger.io/v2/swagger.json', this.json)
                .replace('</title>', `</title><base href="${this.ui}/">`);
     },
@@ -88,7 +96,7 @@ module.exports = {
       if (p[1].length === 0) {
         res.send(this.newHtml);
       } else {
-        res.sendFile(p[1], {root: path.join(__dirname, this.swaggerUiDistPath)});
+        res.sendFile(p[1], { root: this.swaggerUiDistPath });
       }
     },
   }
