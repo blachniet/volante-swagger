@@ -1,15 +1,17 @@
 const fs = require('fs');
 const path = require('path');
+const volante = require('volante');
 const swaggerJSDoc = require('swagger-jsdoc');
 
 module.exports = {
   name: 'VolanteSwagger',
   props: {
-    enabled: true,
-    title: '',
-    description: '',
-    ui: '/api/swagger',
-    json: '/api/swagger.json',
+    enabled: true,              // enable the Swagger UI
+    title: '',                  // title for Swagger UI
+    description: '',            // description for Swagger UI
+    src: '/src',                // path to sources, relative to parent project root
+    ui: '/api/swagger',         // ui path relative to volante-express http server root
+    json: '/api/swagger.json',  // swagger.json path relative to volante-express http server root
   },
   data() {
     return {
@@ -46,9 +48,9 @@ module.exports = {
           },
           basePath: '/',
         },
-        apis: [path.join(__dirname, '**/*.js')],
+        apis: [path.join(volante.parentRoot, this.src, '**/*.js')],
       },
-      swaggerUiDistPath: '../node_modules/swagger-ui-dist',
+      swaggerUiDistPath: './node_modules/swagger-ui-dist',
       newHtml: '',
     };
   },
@@ -72,7 +74,7 @@ module.exports = {
     },
   },
   methods: {
-    // hack the swagger html file to 
+    // hack the swagger html file to
 		// 1. not show the petstore demo by default, but pull our json
 		// 2. fix path root to be at this.ui
     hackSwaggerHtmlFile() {
