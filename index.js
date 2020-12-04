@@ -25,27 +25,6 @@ module.exports = {
             version: volante.parentVersion,
             description: this.description,
           },
-          securityDefinitions: {
-            JWT: {
-              type: 'apiKey',
-              name: 'Authorization',
-              in: 'header',
-            },
-            SignInAuth: {
-              type: 'basic',
-            },
-          },
-          responses: {
-            InternalServerError: {
-              description: "Internal Server Error"
-            },
-            OK: {
-              description: "OK"
-            },
-            Unauthorized: {
-              description: "Unauthorized"
-            }
-          },
           basePath: '/',
         },
         apis: [path.join(volante.parentRoot, this.src, '**/*.js')],
