@@ -58,6 +58,7 @@ module.exports = {
     'VolanteExpress.pre-start'(app) {
       if (this.enabled) {
         app.use(this.router);
+        this.$ready('swagger-ui is ready');
       }
     },
   },
