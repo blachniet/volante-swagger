@@ -1,0 +1,19 @@
+{
+  "name": "SwaggerTest",
+  "debug": true,
+  "attach": [
+    "volante-console",
+    "volante-express"
+  ],
+  "attachLocal": [
+    "./src"
+  ],
+  "VolanteExpress": {
+    "bind": "0.0.0.0",
+    "port": 8080
+  },
+  "VolanteSwagger": {
+    "title": "Example Swagger!",
+    "src": "/example"
+  }
+}

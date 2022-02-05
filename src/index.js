@@ -97,7 +97,9 @@ module.exports = {
   .swagger-ui .dialog-ux .modal-ux-content h4,
   .swagger-ui table thead tr td, .swagger-ui table thead tr th,
   .swagger-ui .opblock-description-wrapper p, .swagger-ui .opblock-external-docs-wrapper p, .swagger-ui .opblock-title_normal p,
-  .swagger-ui section h3 {
+  .swagger-ui section h3,
+  .swagger-ui .opblock-description-wrapper,
+  .swagger-ui .opblock-tag small {
     color: #ccc;
   }
   .swagger-ui input[type=email], .swagger-ui input[type=file], .swagger-ui input[type=password],
@@ -108,6 +110,13 @@ module.exports = {
   }
   .swagger-ui section.models {
     border-color: #7d7d7d;
+  }
+  .swagger-ui .parameter__name,
+  .swagger-ui .parameter__type {
+    color: #f57d43;
+  }
+  .swagger-ui .link {
+    color: #1a7fe1;
   }
   svg {
     fill: #ccc;

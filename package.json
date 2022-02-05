@@ -5,10 +5,19 @@
   "author": "Mike Smiley <msmiley@alumni.rice.edu>",
   "url": "https://github.com/msmiley/volante-swagger",
   "repository": "msmiley/volante-swagger.git",
+  "main": "./src",
+  "scripts": {
+    "dev": "node example/index.js"
+  },
   "license": "ISC",
   "dependencies": {
     "swagger-jsdoc": "^6.0.8",
     "swagger-ui-dist": "^3.44.1"
+  },
+  "devDependencies": {
+    "volante": "^6.3.0",
+    "volante-express": "^6.0.0",
+    "volante-console": "^4.0.0"
   },
   "keywords": [
     "volante"
