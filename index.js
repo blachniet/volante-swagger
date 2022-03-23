@@ -75,7 +75,7 @@ module.exports = {
     this.router.all(`${this.ui}*`, this.serveSwaggerUi);
   },
   events: {
-    'VolanteExpress.pre-start'(app) {
+    'VolanteExpress.app'(app) {
       if (this.enabled) {
         app.use(this.router);
       }
