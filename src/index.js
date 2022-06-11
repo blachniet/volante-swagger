@@ -6,7 +6,7 @@ const swaggerJSDoc = require('swagger-jsdoc');
 module.exports = {
   name: 'VolanteSwagger',
   props: {
-    dark: true,
+    dark: true,                 // enable dark mode
     enabled: true,              // enable the Swagger UI
     title: '',                  // title for Swagger UI
     description: '',            // description for Swagger UI
@@ -42,22 +42,17 @@ module.exports = {
       // assume it's in the parent's node_modules
       this.swaggerUiDistPath = path.join(volante.modulePath, 'swagger-ui-dist');
     }
-
-    // set up the routes
-    this.router = require('express').Router();
-
+    // save hacked html
     this.newHtml = this.hackSwaggerHtmlFile();
-
-    // expose the json
-    this.router.all(this.json, (req, res) => res.json(swaggerJSDoc(this.options)));
-
-    // everything else is handled by serveSwaggerUi
-    this.router.all(`${this.ui}*`, this.serveSwaggerUi);
   },
   events: {
-    'VolanteExpress.app'(app) {
+    'VolanteExpress.router'(router) {
       if (this.enabled) {
-        app.use(this.router);
+        let r = router();
+        // expose the json
+        r.all(this.json, (req, res) => res.json(swaggerJSDoc(this.options)));
+        // everything else is handled by serveSwaggerUi
+        r.all(`${this.ui}*`, this.serveSwaggerUi);
         this.$ready('swagger-ui is ready');
       }
     },

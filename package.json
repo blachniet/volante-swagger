@@ -15,9 +15,9 @@
     "swagger-ui-dist": "^3.44.1"
   },
   "devDependencies": {
-    "volante": "^6.3.0",
-    "volante-express": "^6.0.0",
-    "volante-console": "^4.0.0"
+    "volante": "^6.5.2",
+    "volante-express": "^7.1.0",
+    "volante-console": "^4.1.0"
   },
   "keywords": [
     "volante"
