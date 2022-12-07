@@ -138,6 +138,8 @@ module.exports = {
     serveSwaggerUi(req, res) {
       let p = req.path.split(/\/swagger\/?/);
       if (p[1].length === 0) {
+        // emit an event signalling that swagger-ui is being used for those interested
+        this.$emit('VolanteSwagger.accessed');
         res.send(this.newHtml);
       } else {
         res.sendFile(p[1], { root: this.swaggerUiDistPath });

@@ -50,6 +50,19 @@ hub.emit('VolanteSwagger.update', {
 });
 ```
 
+## Events Emitted
+
+In addition to native Volante log events, this modules also emits:
+
+- `VolanteSwagger.accessed()` - emitted when the swagger-ui page is requested
+  ```js
+  events: {
+    'VolanteSwagger.accessed'() {
+    	this.$log('swagger ui was accessed');
+    }
+  }
+  ```
+
 ## License
 
 ISC
