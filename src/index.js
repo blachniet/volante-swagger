@@ -138,8 +138,8 @@ module.exports = {
     serveSwaggerUi(req, res) {
       let p = req.path.split(/\/swagger\/?/);
       if (p[1].length === 0) {
-        // emit an event signalling that swagger-ui is being used for those interested
-        this.$emit('VolanteSwagger.accessed');
+        // emit an event signalling that swagger-ui is being used for those interested, include any accessible ip info
+        this.$emit('VolanteSwagger.accessed', req.ip || req._remoteAddress || (req.connection && req.connection.remoteAddress));
         res.send(this.newHtml);
       } else {
         res.sendFile(p[1], { root: this.swaggerUiDistPath });
