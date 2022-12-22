@@ -1,8 +1,8 @@
 const volante = require('volante');
-let hub = new volante.Hub().loadConfig('example/config.json');
-hub.on('VolanteExpress.pre-start', (app) => {
-  app.use('/', (req, res) => {
+let hub = new volante.Hub();
+hub.on('VolanteExpress.app', (app) => {
+  app.get('/', (req, res) => {
     res.redirect('/api/swagger');
   });
 });
-hub.emit('VolanteExpress.start');
+hub.loadConfig('example/config.json');

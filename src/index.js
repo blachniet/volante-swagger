@@ -20,7 +20,7 @@ module.exports = {
       // swagger-jsdoc options
       options: {
         definition: {
-          openapi: '3.0.1',
+          openapi: '3.0.3', // swagger-ui doesn't support 3.1 yet
           info: {
             title: this.title,
             version: volante.parentVersion,
@@ -49,8 +49,10 @@ module.exports = {
     'VolanteExpress.router'(router) {
       if (this.enabled) {
         let r = router();
-        // expose the json
-        r.all(this.json, (req, res) => res.json(swaggerJSDoc(this.options)));
+        // expose the json directly
+        r.all(this.json, (req, res) => {
+          res.json(swaggerJSDoc(this.options));
+        });
         // everything else is handled by serveSwaggerUi
         r.all(`${this.ui}*`, this.serveSwaggerUi);
         this.$ready('swagger-ui is ready');
@@ -64,10 +66,9 @@ module.exports = {
 		// 3. override css classes so we have dark mode
     hackSwaggerHtmlFile() {
       let ret = fs.readFileSync(path.join(this.swaggerUiDistPath, 'index.html'), { encoding:'utf-8' })
-               .replace('https://petstore.swagger.io/v2/swagger.json', this.json)
-               .replace('</title>', `</title><base href="${this.ui}/">`);
+                  .replace('</title>', `</title><base href="${this.ui}/">`);
       if (this.dark) {
-        ret = ret.replace('</style>', `
+        ret = ret.replace('</body>', `</body><style>
   body,
   .swagger-ui .opblock .opblock-section-header,
   .swagger-ui .scheme-container {
@@ -137,12 +138,20 @@ module.exports = {
     // express middleware function to send swagger ui
     serveSwaggerUi(req, res) {
       let p = req.path.split(/\/swagger\/?/);
-      if (p[1].length === 0) {
+      if (p[1].length === 0) { // serve up index.html
         // emit an event signalling that swagger-ui is being used for those interested, include any accessible ip info
         this.$emit('VolanteSwagger.accessed', req.ip || req._remoteAddress || (req.connection && req.connection.remoteAddress));
         res.send(this.newHtml);
-      } else {
-        res.sendFile(p[1], { root: this.swaggerUiDistPath });
+      } else { // file request
+        switch (p[1]) {
+          case 'swagger-initializer.js':
+            let ret = fs.readFileSync(path.join(this.swaggerUiDistPath, 'swagger-initializer.js'), { encoding:'utf-8' })
+                            .replace('https://petstore.swagger.io/v2/swagger.json', this.json);
+            res.send(ret);
+            break;
+          default: // send it
+            res.sendFile(p[1], { root: this.swaggerUiDistPath });
+        }
       }
     },
   }

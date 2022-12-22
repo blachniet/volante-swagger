@@ -9,11 +9,12 @@
     "./src"
   ],
   "VolanteExpress": {
+    "autoStart": true,
     "bind": "0.0.0.0",
     "port": 8080
   },
   "VolanteSwagger": {
-    "title": "Example Swagger!",
+    "title": "Volante Swagger Example!",
     "src": "/example"
   }
 }

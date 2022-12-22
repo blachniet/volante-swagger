@@ -11,13 +11,13 @@
   },
   "license": "ISC",
   "dependencies": {
-    "swagger-jsdoc": "^6.0.8",
-    "swagger-ui-dist": "^3.44.1"
+    "swagger-jsdoc": "6.2.7",
+    "swagger-ui-dist": "4.15.5"
   },
   "devDependencies": {
-    "volante": "^6.5.2",
-    "volante-express": "^7.1.0",
-    "volante-console": "^4.1.0"
+    "volante": "6.9.0",
+    "volante-express": "7.2.0",
+    "volante-console": "4.3.0"
   },
   "keywords": [
     "volante"
